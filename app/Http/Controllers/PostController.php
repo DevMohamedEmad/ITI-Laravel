@@ -54,4 +54,31 @@ class PostController extends Controller
         ]);
 
     }
+    public function create (){
+        return View("posts.create");
+    }
+    public function store(Request $request){
+        if($request->title && $request->description && $request->postedBy){
+            return "The Data Is Stored Successfully";
+        }else {
+            return View("posts.create");
+        }
+    }
+    public function edit($id){
+        $post = [
+            "id" => "3",
+            "title" => "Codeginator",
+            "Posted_by" => "Kariem",
+            "description" => "Codeginator Is PHP Framework",
+            "created_at" => "2023 02 12"
+        ];
+        return View("posts.edit" , ['post' => $post,]);
+    }
+    public function update(Request $request){
+        return "The Data Is Updated Successfully";
+    }
+    public function destroy(){
+        return "The Data Is Deleted Successfully";
+    }
+
 }
