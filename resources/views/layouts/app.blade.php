@@ -12,7 +12,7 @@
   </div>
 </nav>
 </body>
-<div class="container">
+
 
 @yield('content')
 

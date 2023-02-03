@@ -1,29 +1,31 @@
 @extends('layouts.app')
 @section('content')
+<div class="container">
 
 <form action="{{route('posts.update')}}" method="POST">
 
 @csrf
-
+<div class="mb-3">
+    <input type="hidden" class="form-control" name="id" value="{{$post->id}}">
+</div>
         <div class="mb-3">
         <label class="form-label">Title</label>
-        <input type="text" class="form-control" name="title" value="{{$post['title']}}">
+        <input type="text" class="form-control" name="title" value="{{$post->title}}">
     </div>
     <div class="mb-3">
         <label class="form-label">Description</label>
-        <textarea class="form-control" rows="3" name="description">{{$post['description']}}</textarea>
+        <textarea class="form-control" rows="3" name="description">{{$post->description}}</textarea>
     </div>
     <div class="mb-3">
         <label class="form-label">Posted By</label>
-        <select class="form-control" rows="3" name="postedBy" value="{{$post['Posted_by']}}">
-            <option value=""> Ahmed</option>
-            <option value=""> Ali</option>
-            <option value=""> Mohamed</option>
+        <select class="form-control" rows="3" name="user_id" value="{{$post->user_id}}">
+            <option value="{{$post->user_id}}">{{$post->user->name}}</option>
         </select>
     </div>
     <div class="mb-3">
         <input type="submit" class="btn btn-primary" value="Edit">
     </div>
 </form>
+</div>
 
 @endsection

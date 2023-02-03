@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\commentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
+////////////// Posts  ///////////////////////////////////////////////////
 Route::get('/posts', [PostController::class,'index'])->name('posts.index');
 Route::get('/posts/create', [PostController::class,'create'])->name('posts.create');
 Route::post('/posts/store', [PostController::class,'store'])->name('posts.store');
@@ -26,3 +27,6 @@ Route::post('/posts/update', [PostController::class,'update'])->name('posts.upda
 Route::get('/posts/{post}', [PostController::class,'show'])->name('posts.show');
 Route::delete('/posts/delete/{post}', [PostController::class,'destroy'])->name('posts.delete');
 
+////////////////// Comments ////////////////////////////////////
+Route::get('/comments' , [commentController::class , 'index'])->name('comments.index');
+Route::post('/comments/store' , [commentController::class , 'store'])->name('comments.store');

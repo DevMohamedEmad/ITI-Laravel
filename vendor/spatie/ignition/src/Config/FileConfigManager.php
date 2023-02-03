@@ -41,7 +41,7 @@ class FileConfigManager implements ConfigManager
 
     protected function isValidWritablePath(string $path): bool
     {
-        return file_exists($path) && @is_writable($path);
+        return @file_exists($path) && @is_writable($path);
     }
 
     protected function preparePath(string $path): string
@@ -73,7 +73,8 @@ class FileConfigManager implements ConfigManager
         return $this->readFromFile();
     }
 
-    protected function readFromFile()
+    /** @return array<string, mixed> */
+    protected function readFromFile(): array
     {
         if (! $this->isValidFile()) {
             return [];
@@ -88,7 +89,7 @@ class FileConfigManager implements ConfigManager
     protected function isValidFile(): bool
     {
         return $this->isValidPath() &&
-            file_exists($this->file) &&
+            @file_exists($this->file) &&
             @is_writable($this->file);
     }
 
@@ -113,13 +114,18 @@ class FileConfigManager implements ConfigManager
             return false;
         }
 
-        if (file_exists($this->file)) {
+        if (@file_exists($this->file)) {
             return true;
         }
 
         return (file_put_contents($this->file, '') !== false);
     }
 
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return bool
+     */
     protected function saveToFile(array $options): bool
     {
         try {

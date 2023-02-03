@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-
+<div class="container">
 <form action="{{route('posts.store')}}" method="post">
     @csrf
 <div class="mb-3">
@@ -13,15 +13,15 @@
 </div>
 <div class="mb-3">
     <label for="exampleFormControlTextarea1" class="form-label">Posted By</label>
-    <select class="form-control" id="exampleFormControlTextarea1" rows="3" name="postedBy">
-        <option value="Ahmed"> Ahmed</option>
-        <option value="Ali"> Ali</option>
-        <option value="Mohamed"> Mohamed</option>
+    <select class="form-control" id="exampleFormControlTextarea1" rows="3" name="user_id">
+        @foreach ($users as $user)
+        <option value="{{$user->id }}">{{ $user->name }}</option>
+        @endforeach
     </select>
 </div>
 <div class="mb-3">
 <input type="submit" class="btn btn-primary" id="exampleFormControlInput1">
 </div>
 </form>
-
+</div>
 @endsection

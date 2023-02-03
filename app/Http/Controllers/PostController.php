@@ -3,82 +3,79 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Models\User;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
-    public function index(){
-        $posts = [
-            [
-                "id"=>"1",
-                "title"=>"laravel",
-                "Posted_by"=>"Ali",
-                "description"=>"Laravel Is PHP Framework",
-                "created_at"=>"2023 01 30",
-
-            ]
-            ,
-            [
-                "id"=>"2",
-                "title"=>"Symfony",
-                "Posted_by"=>"Ali",
-                "description"=>"Symfony Is PHP Framework",
-                "created_at"=>"2022 01 31",
-            ]
-            ,
-            [
-                "id"=>"3",
-                "title"=>"Codeginator",
-                "Posted_by"=>"Kariem",
-                "description"=>"Codeginator Is PHP Framework",
-                "created_at"=>"2023 02 12"
-            ]
-        ];
+    public function index()
+    {
+        $posts = Post::latest()->paginate(2);
+        foreach ($posts as $post) {
+            $post->time = \Carbon\Carbon::parse($post->created_at)->format('d/m/Y');
+        }
         return view('posts.index', [
             'posts' => $posts,
         ]);
-
     }
-    public function show($id){
-
-        $post = [
-            "id" => "3",
-            "title" => "Codeginator",
-            "Posted_by" => "Kariem",
-            "description" => "Codeginator Is PHP Framework",
-            "created_at" => "2023 02 12",
-            "email"=>"kariem12@gmail.com"
-        ];
-
+    public function show($id)
+    {
+        $post = Post::find($id);
+        $createdAtVar =  $post->created_at;
+        $x = explode(" ", $createdAtVar->toDateTimeString());
+        $post->created_at = $x[0];
+        $post->time = $x[0];
+        $users = User::all();
+        $comments = $post->comments;
         return view('posts.show', [
             'post' => $post,
+            'comments'=>$comments,
+            'users'=> $users
         ]);
-
     }
-    public function create (){
-        return View("posts.create");
+    public function create()
+    {
+        $users = User::all();
+        return View(
+            "posts.create",
+            ['users' => $users,]
+        );
     }
-    public function store(Request $request){
-        if($request->title && $request->description && $request->postedBy){
-            return "The Data Is Stored Successfully";
-        }else {
-            return View("posts.create");
+    public function store(Request $request)
+    {
+        if ($request->title && $request->description && $request->user_id) {
+            Post::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'user_id' => $request->user_id
+            ]);
+            return redirect()->route('posts.index');
+        } else {
+            return redirect()->route('posts.create');
         }
     }
-    public function edit($id){
-        $post = [
-            "id" => "3",
-            "title" => "Codeginator",
-            "Posted_by" => "Kariem",
-            "description" => "Codeginator Is PHP Framework",
-            "created_at" => "2023 02 12"
-        ];
-        return View("posts.edit" , ['post' => $post,]);
+    public function edit($id)
+    {
+        $post = Post::find($id);
+        return View("posts.edit", ['post' => $post]);
     }
-    public function update(Request $request){
-        return "The Data Is Updated Successfully";
+    public function update(Request $request)
+    {
+        if ($request->title && $request->description && $request->user_id) {
+            Post::find($request->id)->update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'user_id' => $request->user_id
+            ]);
+            return redirect()->route('posts.index');
+        } else {
+            return redirect()->route('posts.create');
+        }
     }
-    public function destroy(){
-        return "The Data Is Deleted Successfully";
+    public function destroy($id)
+    {
+        Post::destroy($id);
+        return redirect()->route('posts.index');
     }
-
 }
