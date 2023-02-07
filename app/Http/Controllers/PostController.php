@@ -1,11 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 
 class PostController extends Controller
 {
@@ -42,16 +42,17 @@ class PostController extends Controller
             ['users' => $users,]
         );
     }
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        if ($request->title && $request->description && $request->user_id) {
+        if (User::where('id', '=', $request->user_id)->exists()) {
             Post::create([
                 'title' => $request->title,
                 'description' => $request->description,
                 'user_id' => $request->user_id
-            ]);
+            ])->replicate();
             return redirect()->route('posts.index');
-        } else {
+        }
+     else {
             return redirect()->route('posts.create');
         }
     }
@@ -60,7 +61,7 @@ class PostController extends Controller
         $post = Post::find($id);
         return View("posts.edit", ['post' => $post]);
     }
-    public function update(Request $request)
+    public function update(UpdatePostRequest $request)
     {
         if ($request->title && $request->description && $request->user_id) {
             Post::find($request->id)->update([

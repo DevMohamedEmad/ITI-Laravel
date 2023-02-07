@@ -16,7 +16,7 @@
     <tbody>
         @foreach($posts as $post)
         <tr>
-            <th scope="row">{{$post->id}}</th>
+            <th scope="row">{{$post->slug}}</th>
             <td>{{$post->title}}</td>
             <td>{{$post->user->name}}</td>
             <td>{{$post->time}}</td>
