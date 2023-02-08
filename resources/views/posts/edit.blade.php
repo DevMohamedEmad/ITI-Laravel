@@ -10,6 +10,11 @@
         </ul>
     </div>
 @endif
+@if(!empty(Session::get('msg')))
+<div class="alert alert-primary w-75" role="alert">
+{{Session::get('msg')}}
+</div>
+@endif
 <form action="{{route('posts.update')}}" method="POST">
 @csrf
 <div class="mb-3">

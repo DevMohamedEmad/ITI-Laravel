@@ -7,6 +7,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class PostController extends Controller
             Post::create([
                 'title' => $request->title,
                 'description' => $request->description,
-                'user_id' => $request->user_id
+                'user_id' => Auth::id()
             ])->replicate();
             return ['msg'=>'success'];
         }

@@ -69,7 +69,6 @@ Route::get('/linkedin/login', function () {
 Route::get('/linkedin/home', function () {
     $linkedinUser = Socialite::driver('linkedin')->user();
     dd($linkedinUser);
-
     // $user = User::updateOrCreate([
     //     'id' => $githubUser->id,
     //     'name' => $githubUser->name,

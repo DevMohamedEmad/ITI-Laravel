@@ -24,11 +24,10 @@ class UpdatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'min:3', 'unique:App\Models\Post,title'],
+            'title' => ['required', 'min:3'],
             'description' => ['required', 'min:10']
         ];
     }
-
     public function messages()
     {
         return

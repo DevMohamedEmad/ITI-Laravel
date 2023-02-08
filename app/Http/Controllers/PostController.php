@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -48,7 +49,7 @@ class PostController extends Controller
             Post::create([
                 'title' => $request->title,
                 'description' => $request->description,
-                'user_id' => $request->user_id
+                'user_id' => Auth::id()
             ])->replicate();
             return redirect()->route('posts.index');
         }
@@ -63,15 +64,19 @@ class PostController extends Controller
     }
     public function update(UpdatePostRequest $request)
     {
-        if ($request->title && $request->description && $request->user_id) {
+        $post = Post::where("title",$request->title)->get();
+        if(count($post) > 1 ){
+            return redirect()->back()->with('msg',"Data Invalid");
+        }
+        elseif(count($post) == 1 && $post[0]->id != $request->id){
+            return redirect()->back()->with('msg',"Data Invalid");
+        }else{
             Post::find($request->id)->update([
                 'title' => $request->title,
                 'description' => $request->description,
-                'user_id' => $request->user_id
+                'user_id' =>Auth::id()
             ]);
             return redirect()->route('posts.index');
-        } else {
-            return redirect()->route('posts.create');
         }
     }
     public function destroy($id)

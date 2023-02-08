@@ -20,7 +20,7 @@
   </div>
   <div class="card-body">
     <h5 class="card-title"> <h3>Creator:</h3>{{$post->user->name}} </h5>
-    <p class="card-text"> <h3>Comment:</h3>{{$post->user->email}}</p>
+    <p class="card-text"> <h3>  Email:</h3>{{$post->user->email}}</p>
   </div>
 </div>
 <br>
@@ -31,17 +31,17 @@
      Comments
     </div>
     @foreach ($comments as $comment)
+    <hr>
     <div class="card-body">
         <h5 class="card-title"> <h3>Creator:</h3>{{$comment->user->name}} </h5>
-        <p class="card-text"> <h3>Email:</h3>{{$comment->body}}</p>
+        <p class="card-text"> <h3>Comment:</h3>{{$comment->body}}</p>
       </div>
     @endforeach
   </div>
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
    Add Comment
   </button>
-
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
