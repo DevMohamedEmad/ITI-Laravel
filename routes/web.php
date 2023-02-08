@@ -50,15 +50,16 @@ Route::get('/github/login', function () {
 Route::get('/github/home', function () {
     $githubUser = Socialite::driver('github')->user();
 
-    $user = User::updateOrCreate([
-        'id' => $githubUser->id,
-        'name' => $githubUser->name,
-        'email' => $githubUser->email,
-        'password' => "12345678"
-    ]);
+dd($githubUser);
+    // $user = User::updateOrCreate([
+    //     'id' => $githubUser->id,
+    //     'name' => $githubUser->name,
+    //     'email' => $githubUser->email,
+    //     'password' => "12345678"
+    // ]);
 
-    Auth::login($user);
-    return redirect('/');
+    // Auth::login($user);
+    // return redirect('/');
 })->name('github.home');
 
 

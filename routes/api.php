@@ -23,8 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index')->middleware('auth:sanctum');
-Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
-
+Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store')->middleware('auth:sanctum');
+Route::post('/posts/update', [PostController::class, 'update'])->name('posts.update')->middleware('auth:sanctum');
 
 Route::post('/login', function (Request $request) {
     $request->validate([

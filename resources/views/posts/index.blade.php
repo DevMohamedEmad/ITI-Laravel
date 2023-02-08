@@ -55,7 +55,7 @@
 </table>
 </div>
 <div class="container">
-    {{ $posts->links() }}
+  {{ $posts->links() }}
 
 </div>
 @endsection
